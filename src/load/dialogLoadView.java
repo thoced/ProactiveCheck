@@ -18,6 +18,8 @@ import javax.swing.JProgressBar;
 
 import edit.panelEditView;
 import main.MainApp.MainAppModel;
+import main.dataImma;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JPanel;
@@ -57,12 +59,12 @@ public class dialogLoadView extends JDialog
 		panel.setLayout(null);
 		
 		JLabel labelInfo = new JLabel("Chargement des donn\u00E9es...");
-		labelInfo.setBounds(10, 11, 284, 31);
+		labelInfo.setBounds(223, 24, 284, 31);
 		panel.add(labelInfo);
 		labelInfo.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
 		progressBarData = new JProgressBar();
-		progressBarData.setBounds(10, 80, 300, 31);
+		progressBarData.setBounds(10, 80, 620, 31);
 		panel.add(progressBarData);
 		
 		// création du controller et du model
@@ -76,7 +78,7 @@ public class dialogLoadView extends JDialog
 			JOptionPane.showMessageDialog(this, "Probleme lors du chargement des données");
 		}
 		
-		this.setSize(320,200);
+		this.setSize(640,200);
 		this.setLocationRelativeTo(owner);
 		
 		
@@ -135,7 +137,7 @@ public class dialogLoadView extends JDialog
 						// chargement dans un String
 						String reporting = new String(buffer);
 						// split
-						 splitReporting = reporting.split(System.getProperty("line.separator"));
+						splitReporting = reporting.split(System.getProperty("line.separator"));
 						// nombre de ligne
 						nbReportingLoaded = splitReporting.length;
 						
@@ -185,8 +187,14 @@ public class dialogLoadView extends JDialog
 			for(String s : split)
 			{
 				cpt++;
+				
+				// on découpe l'immatriculation et le type de vol par une tabulation
+				String[] row = s.split("\t");
 				// ajout d'une immatriculation
-				MainAppModel.immatriculations.add(s.trim().toUpperCase());
+				dataImma data = new dataImma();
+				data.immatriculation = row[0].trim().toUpperCase();
+				data.info = row[1].trim();
+				MainAppModel.immatriculations.add(data);
 				// modif du progressbar
 				view.getProgressBarData().setValue(cpt);
 				//view.getProgressBarData().updateUI();

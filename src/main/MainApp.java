@@ -94,8 +94,12 @@ public class MainApp {
 		
 	}
 	
+	
+	
 	public static class MainAppModel
 	{
-		public static List<String> immatriculations = new ArrayList<String>();
+		public static List<dataImma> immatriculations = new ArrayList<dataImma>();
+		
+		
 	}
 }

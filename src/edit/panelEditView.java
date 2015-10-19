@@ -16,6 +16,7 @@ import javax.swing.event.CaretListener;
 
 import load.dialogLoadView.dialogLoadModel;
 import main.MainApp.MainAppModel;
+import main.dataImma;
 
 import javax.swing.event.CaretEvent;
 import java.awt.event.KeyAdapter;
@@ -74,7 +75,7 @@ public class panelEditView extends JPanel
 		this.setSize(600, 800);
 		
 		listResult = new JList();
-		listResult.setBorder(new LineBorder(SystemColor.textHighlight, 6, true));
+		listResult.setBorder(new LineBorder(new Color(51, 153, 255), 4, true));
 		listResult.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		listResult.setBackground(Color.LIGHT_GRAY);
 		JScrollPane scrollPane = new JScrollPane(listResult);
@@ -83,7 +84,7 @@ public class panelEditView extends JPanel
 		add(scrollPane, BorderLayout.WEST);
 		
 		panelEdit = new JPanel();
-		panelEdit.setBorder(new LineBorder(SystemColor.textHighlight, 6, true));
+		panelEdit.setBorder(new LineBorder(new Color(51, 153, 255), 4, true));
 		panelEdit.setBackground(Color.GRAY);
 		add(panelEdit, BorderLayout.NORTH);
 		panelEdit.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -130,7 +131,7 @@ public class panelEditView extends JPanel
 		logo.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		logo.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		logo.setIcon(new ImageIcon(panelEditView.class.getResource("/images/logo-prevac-medium.png")));
-		panelLogo.add(logo, BorderLayout.CENTER);
+		panelLogo.add(logo, BorderLayout.SOUTH);
 
 	}
 	
@@ -185,22 +186,29 @@ public class panelEditView extends JPanel
 		        else
 		        {
 			        // recherche dans le vecteur
-			        for(String s : MainAppModel.immatriculations)
+			        for(dataImma data : MainAppModel.immatriculations)
 			        {
 			        	try
 			        	{
-			        		String split = s.substring(0, text.length());
+			        		String split = data.immatriculation.substring(0, text.length());
 			        		if(split.equals(text))
 				        	{
 				        		// ajout dans la listview des résultats
-				        		pModel.getModelList().addElement(s);
+				        		pModel.getModelList().addElement(data.immatriculation);
 				        		// si le nombre de caractère est égal alors la plaque est complète
-				        		if(text.length() == s.length())
+				        		if(text.length() == data.immatriculation.length())
 				        		{
 				        			// modification de la couleur de l'edit
 				        			pView.tEdit.setBackground(Color.RED);
 				        			// modification de la couleur de la liste
 				        			pView.getListResult().setBackground(Color.RED);
+				        			// affichage du dialogMatch
+				        			dialogMatch diaHit = new dialogMatch(null,"",true);
+				        			diaHit.getLabelInfo().setText(data.info);
+				        			diaHit.setVisible(true);
+				        			// on repositionne les couleurs par defauts après avoir quitté la boite de dialogMatch
+				        			pView.tEdit.setBackground(Color.ORANGE);
+				        			pView.getListResult().setBackground(Color.LIGHT_GRAY);
 				        		}
 				        		
 				        		
